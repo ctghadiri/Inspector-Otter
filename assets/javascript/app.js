@@ -11,47 +11,80 @@
 // };
 // firebase.initializeApp(config);
 
+
 // Calling Firebase
 // var database = firebase.database();
 
+
 // When submit button is clicked
-// $("#submitButton").on("click", function (event) {
-    // event.preventDefault();
+$("#submitButton").on("click", function (event) {
+    event.preventDefault();
 
-    // Grab value from input box
-    // var theWord = $("#theWord").val().trim();
+    var wordSearch = $("#theWord").val().trim();
+    console.log(wordSearch);
 
-    // Creates local "temporary" object to hold word data
-    // var objWord = {
-    //     word: word,
-    // };
+    
+    // <======================= Cyrus ======================>
 
-    // Uploads objWord data to the database
-    // database.ref().push(objWord);
+    queryURL = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/" + wordSearch + "?key=6f391cdf-76f7-4e3f-bfda-ef1e3db34d04"
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+        type: JSON,
+    }).then(function (response) {
+        if(typeof response[0] === "object"){
+        console.log(response);
+        var def = response[0].shortdef[0];
+        var defRow = $("<tr>");
+        var defData = $("<td>");
+        defData.text("Webster Definition: " + def);
+        defRow.append(defData);
+        $("#webBody").append("<br><hr><br>");
+        $("#webBody").append(defRow);
+        $("#webBody").append("<br><hr><br>");
+        }
+        else{
+            console.log(response)
+            var nullResponse = "This is not a formal word.";
+            var nullRow = $("<tr>");
+            var nullData = $("<td>");
+            nullData.text(nullResponse);
+            nullRow.append(nullData);
+            $("#webBody").append(nullRow);
+            $("#webBody").append("<br><hr><br>");
+        }
+    });
 
-    // Write your code here
+    // <======================= Andrew ======================>
 
+    $(".urbanRow").empty();
+    // $(".clearRow").empty(); I don't see this class :)
 
+    var urbanDictionaryQuery = 'http://api.urbandictionary.com/v0/define?term=' + wordSearch;
+    $.ajax({
+        url: urbanDictionaryQuery,
+        method: "GET",
+    }).then(function (response) {
+        console.log(response);
 
-// });
+        // var wordTableRow = $("<tr>").text(wordSearch).addClass("clearRow");
+        // $("#urbanBody").append(wordTableRow);
 
-// Create Firebase event for adding objWord and a row in the html when a user adds an entry
-// database.ref().on("child_added", function (snapshot) {
-    // console.log(snapshot.val());
+        for (i = 0; i < 1; i++) {
+            var wordDefinition = 'Urban Dictionary Definition: ' + response.list[i].definition;
+            // var theInput = $("<tr>").addClass("urbanRow"); not sure what this is doing? :)
+            var tableRow = $("<tr>").addClass("urbanRow");
+            var tableData = $("<td>").text(wordDefinition);
 
+            tableRow.append(tableData);
+            // tableRow.append(theInput); not sure what this does? :)
 
-    // Write your code here and append your content to the DOM below
+            $("#urbanBody").append(tableRow);
+            // $("#EnterWord").val("") where are you getting this? LOL
+        }
+    });
 
-
-    // Create the new row
-    // var newRow = $("<tr>").append(
-    //     $("<td>").text(""),
-    // );
-
-    // Append the new row to the table
-//     $("#tbody").append(newRow);
-
-// });
+});
 
 
 // <======================== This is the Zomato Section ========================>
@@ -59,7 +92,7 @@
 
 //  Declaring variables for the Zomato Search forms and buttons
 var zomatoSearchBox = $('<section>', { class: 'zomato' });
-var locationSearch = "<form style='width: 200px;'><div class='form-group'><label for='InputLocation'>Grab a friend and use your new word at a cafe!</label><input type='text' class='form-control' id='InputLocation' placeholder='Enter Location'><small class='privacy' id='privacy'>Privacy information<span class='privacyText'>Your information is proected by the PRIVACY ACT OF 1974</span></small></div></form>"
+var locationSearch = "<br><hr><br><form style='width: 350px;'><div class='form-group'><label for='InputLocation'>Grab a friend and use your new word at a cafe!</label><input type='text' class='form-control' id='InputLocation' placeholder='Enter Location'><small class='privacy' id='privacy'>Privacy information<span class='privacyText'>Your information is proected by the PRIVACY ACT OF 1974</span></small></div></form>"
 var goSocial = $("<button>").text("Go Social").addClass("socialButton")
 var clearZomatoSearch = $("<button>").text("Clear Search").addClass("clearZomatoData").css({ margin: "10px" })
 
@@ -68,7 +101,7 @@ zomatoSearchBox.append(locationSearch)
 zomatoSearchBox.append(goSocial);
 zomatoSearchBox.append(clearZomatoSearch);
 zomatoSearchBox.css({ color: "black", margin: "auto" });
-$("#tbody").append(zomatoSearchBox);
+$("#t2body").append(zomatoSearchBox);
 
 // When a user clicks on the search box, the following fuction is executed
 $(".socialButton").on("click", function Zomato() {
@@ -76,7 +109,7 @@ $(".socialButton").on("click", function Zomato() {
     var locationInput = $("#InputLocation").val()
     // If the user clicks the search button without having input anything into the search bar then they will receive an alter to enter a location
     if (locationInput === '') {
-        alert("Enter a location")
+        console.log("Enter a location");
         return
     }
     // This Ajax call will be executed when the user clicks on the Zomato search button and has an input value in the search bar
@@ -124,7 +157,7 @@ $(".socialButton").on("click", function Zomato() {
 
         // appending the Zomato information into the DOM and add styling to the section
         zomatoData.append(row);
-        $("#tbody").append(zomatoData);
+        $("#t2body").append(zomatoData);
         zomatoData.css({ backgroundColor: '#84C0C6' })
         $(".cafediv").css({ color: "purple", margin: "10px" })
         $(".alignCenter").css({ textAlign: "center" })
@@ -132,8 +165,6 @@ $(".socialButton").on("click", function Zomato() {
         // Clears the search input bar so the user doesnt have to delete what they searched in order to start a new search
         $("#InputLocation").val("")
     });
-
-
 })
 
 // When the clear search button is pressed, the Zomato data is cleared

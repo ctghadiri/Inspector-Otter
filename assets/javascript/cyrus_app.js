@@ -15,7 +15,7 @@ $("#submitButton").on("click", function(event){
         var def = response[0].shortdef[0];
         var defRow = $("<tr>");
         var defData = $("<td>");
-        defData.text(def);
+        defData.text("Webster Definition: " + def);
         defRow.append(defData);
         $("tbody").append(defRow);
         }

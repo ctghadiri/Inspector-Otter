@@ -15,11 +15,11 @@
 // var database = firebase.database();
 
 // When submit button is clicked
-$("#submitButton").on("click", function (event) {
-    event.preventDefault();
+// $("#submitButton").on("click", function (event) {
+    // event.preventDefault();
 
     // Grab value from input box
-    var theWord = $("#theWord").val().trim();
+    // var theWord = $("#theWord").val().trim();
 
     // Creates local "temporary" object to hold word data
     // var objWord = {
@@ -33,25 +33,25 @@ $("#submitButton").on("click", function (event) {
 
 
 
-});
+// });
 
 // Create Firebase event for adding objWord and a row in the html when a user adds an entry
-database.ref().on("child_added", function (snapshot) {
-    console.log(snapshot.val());
+// database.ref().on("child_added", function (snapshot) {
+    // console.log(snapshot.val());
 
 
     // Write your code here and append your content to the DOM below
 
 
     // Create the new row
-    var newRow = $("<tr>").append(
-        $("<td>").text(""),
-    );
+    // var newRow = $("<tr>").append(
+    //     $("<td>").text(""),
+    // );
 
     // Append the new row to the table
-    $("#tbody").append(newRow);
+//     $("#tbody").append(newRow);
 
-});
+// });
 
 
 // <======================== This is the Zomato Section ========================>

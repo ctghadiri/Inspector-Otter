@@ -1,4 +1,5 @@
-$("#submitButton").on("click", function(){
+$("#submitButton").on("click", function(event){
+    event.preventDefault()
     $("tbody").text("")
 
 
@@ -9,18 +10,19 @@ $("#submitButton").on("click", function(){
         method: "GET",
         type: JSON,
     }).then(function (response) {
+        console.log(response);
         var def = response[0].shortdef[0];
         var defRow = $("<tr>");
         var defData = $("<td>");
-        (defData).text(def);
-        (defRow).append(defData);
+        defData.text(def);
+        defRow.append(defData);
         $("tbody").append(defRow);
     });
-    for(var i = 0; i < response.length; i++){
-
-    }
+    // for(var i = 0; i < response.length; i++){
+        
+    // }
+    console.log(word)
 
 });
 // "shortdef":[  
 // meta.offensive
-console.log(word)

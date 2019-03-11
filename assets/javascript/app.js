@@ -1,18 +1,18 @@
 // Keep calm... JavaScript on
 
 // Initialize Firebase
-var config = {
-    apiKey: "AIzaSyBp9mMgv6puXZ6E6o8qepv16hybRG8B7QI",
-    authDomain: "inspector-otter.firebaseapp.com",
-    databaseURL: "https://inspector-otter.firebaseio.com",
-    projectId: "inspector-otter",
-    storageBucket: "inspector-otter.appspot.com",
-    messagingSenderId: "349485035061"
-};
-firebase.initializeApp(config);
+// var config = {
+//     apiKey: "AIzaSyBp9mMgv6puXZ6E6o8qepv16hybRG8B7QI",
+//     authDomain: "inspector-otter.firebaseapp.com",
+//     databaseURL: "https://inspector-otter.firebaseio.com",
+//     projectId: "inspector-otter",
+//     storageBucket: "inspector-otter.appspot.com",
+//     messagingSenderId: "349485035061"
+// };
+// firebase.initializeApp(config);
 
 // Calling Firebase
-var database = firebase.database();
+// var database = firebase.database();
 
 // When submit button is clicked
 $("#submitButton").on("click", function (event) {
@@ -22,12 +22,12 @@ $("#submitButton").on("click", function (event) {
     var theWord = $("#theWord").val().trim();
 
     // Creates local "temporary" object to hold word data
-    var objWord = {
-        word: word,
-    };
+    // var objWord = {
+    //     word: word,
+    // };
 
     // Uploads objWord data to the database
-    database.ref().push(objWord);
+    // database.ref().push(objWord);
 
     // Write your code here
 
@@ -39,13 +39,13 @@ $("#submitButton").on("click", function (event) {
 database.ref().on("child_added", function (snapshot) {
     console.log(snapshot.val());
 
-    
+
     // Write your code here and append your content to the DOM below
 
 
     // Create the new row
     var newRow = $("<tr>").append(
-        $("<td>").text("your input or functions here"),
+        $("<td>").text(""),
     );
 
     // Append the new row to the table
@@ -59,7 +59,7 @@ database.ref().on("child_added", function (snapshot) {
 
 //  Declaring variables for the Zomato Search forms and buttons
 var zomatoSearchBox = $('<section>', { class: 'zomato' });
-var locationSearch = "<form style='width: 200px;'><div class='form-group'><label for='InputLocation'>Find Cafes Near You!</label><input type='text' class='form-control' id='InputLocation' placeholder='Enter Location'><small class='form-text text-muted'>We'll never share your location with anyone else.</small></div></form>"
+var locationSearch = "<form style='width: 200px;'><div class='form-group'><label for='InputLocation'>Grab a friend and use your new word at a cafe!</label><input type='text' class='form-control' id='InputLocation' placeholder='Enter Location'><small class='privacy' id='privacy'>Privacy information<span class='privacyText'>Your information is proected by the PRIVACY ACT OF 1974</span></small></div></form>"
 var goSocial = $("<button>").text("Go Social").addClass("socialButton")
 var clearZomatoSearch = $("<button>").text("Clear Search").addClass("clearZomatoData").css({ margin: "10px" })
 
@@ -67,8 +67,8 @@ var clearZomatoSearch = $("<button>").text("Clear Search").addClass("clearZomato
 zomatoSearchBox.append(locationSearch)
 zomatoSearchBox.append(goSocial);
 zomatoSearchBox.append(clearZomatoSearch);
-zomatoSearchBox.css({ width: "50%", color: "pink", margin: "auto" });
-$("body").append(zomatoSearchBox);
+zomatoSearchBox.css({ color: "black", margin: "auto" });
+$("#tbody").append(zomatoSearchBox);
 
 // When a user clicks on the search box, the following fuction is executed
 $(".socialButton").on("click", function Zomato() {
@@ -124,11 +124,11 @@ $(".socialButton").on("click", function Zomato() {
 
         // appending the Zomato information into the DOM and add styling to the section
         zomatoData.append(row);
-        $("body").append(zomatoData);
+        $("#tbody").append(zomatoData);
         zomatoData.css({ backgroundColor: '#84C0C6' })
-        $(".cafediv").css({ color: "purple", margin: "10px"})
-        $(".alignCenter").css({textAlign: "center"})
-        $('.zomatoImage').css({ width: "200px", border: "3px ridge black" , marginLeft: "auto", marginRight: "auto", display: "block", marginBottom: "10px"})
+        $(".cafediv").css({ color: "purple", margin: "10px" })
+        $(".alignCenter").css({ textAlign: "center" })
+        $('.zomatoImage').css({ width: "200px", border: "3px ridge black", marginLeft: "auto", marginRight: "auto", display: "block", marginBottom: "10px" })
         // Clears the search input bar so the user doesnt have to delete what they searched in order to start a new search
         $("#InputLocation").val("")
     });

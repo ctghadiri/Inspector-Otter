@@ -10,6 +10,7 @@ $("#submitButton").on("click", function(event){
         method: "GET",
         type: JSON,
     }).then(function (response) {
+        if(typeof response[0] === "object"){
         console.log(response);
         var def = response[0].shortdef[0];
         var defRow = $("<tr>");
@@ -17,12 +18,16 @@ $("#submitButton").on("click", function(event){
         defData.text(def);
         defRow.append(defData);
         $("tbody").append(defRow);
+        }
+        else{
+            console.log(response)
+            var nullResponse = "This is not a formal word.";
+            var nullRow = $("<tr>");
+            var nullData = $("<td>");
+            nullData.text(nullResponse);
+            nullRow.append(nullData);
+            $("tbody").append(nullRow);
+        }
     });
-    // for(var i = 0; i < response.length; i++){
-        
-    // }
-    console.log(word)
+});       
 
-});
-// "shortdef":[  
-// meta.offensive

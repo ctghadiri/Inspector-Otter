@@ -1,12 +1,13 @@
 /* Our styling */
 
+/* Table Body */
 #tbody {
     width: 500px;
     margin: 0 auto;
 }
 
 
-
+/* Privacy Hover */
 .privacy {
     position: relative;
     display: inline-block;
@@ -31,6 +32,7 @@
     visibility: visible;
 }
 
+/* Footer */
 #card-body-footer {
     text-align: center;
     font-size: 10px;

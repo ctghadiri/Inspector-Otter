@@ -1,51 +1,85 @@
 // Keep calm... JavaScript on
 
-// Initialize Firebase
-// var config = {
-//     apiKey: "AIzaSyBp9mMgv6puXZ6E6o8qepv16hybRG8B7QI",
-//     authDomain: "inspector-otter.firebaseapp.com",
-//     databaseURL: "https://inspector-otter.firebaseio.com",
-//     projectId: "inspector-otter",
-//     storageBucket: "inspector-otter.appspot.com",
-//     messagingSenderId: "349485035061"
-// };
-// firebase.initializeApp(config);
 
 
-// Calling Firebase
-// var database = firebase.database();
+
+// <======================= Firebase =======================>
+
+// Setting up html for the word search
+var firebaseSection = $("<section>").addClass("firebaseSection");
+var searchHistoryHeader = $("<h3>").addClass("wordSearchHistoryHeader").text("See all the amazing words being searched using Inspector Otter's search tool: ");
+var searchHistoryArea = $("<ul>").addClass("wordSearchHistory");
+var howmanywordssearched = $("<section>").addClass("firebaseWordCount");
+$("#countBody").append(firebaseSection);
+$(".firebaseSection").append(searchHistoryHeader);
+$(".firebaseSection").append(searchHistoryArea);
+$(".firebaseSection").append(howmanywordssearched);
+
+// Initialize Firebase and change the values of the config values with your own Firebase config values.
+var config = {
+    apiKey: "AIzaSyBp9mMgv6puXZ6E6o8qepv16hybRG8B7QI",
+    authDomain: "inspector-otter.firebaseapp.com",
+    databaseURL: "https://inspector-otter.firebaseio.com",
+    projectId: "inspector-otter",
+    storageBucket: "inspector-otter.appspot.com",
+    messagingSenderId: "349485035061"
+};
+firebase.initializeApp(config);
+
+// Created a variable to reference the database
+var database = firebase.database();
+
+// Initial Variables (SET the first set IN FIREBASE FIRST)
+var wordSearch = " ";
+var LocationSearchTerm = " ";
+var wordArray = [];
+
+// Hide colapsable button
+$("#noFilter").hide();
+
+
+
+// <======================= SUBMIT BUTTON ======================>
 
 
 // When submit button is clicked
 $("#submitButton").on("click", function (event) {
     event.preventDefault();
-
     var wordSearch = $("#theWord").val().trim();
     console.log(wordSearch);
 
-    
-    // <======================= Cyrus ======================>
+    // push word into Array
+    //wordArray.push(wordSearchTerm)
+    var newWord = {
+        wordSearch: wordSearch,
+        LocationSearchTerm: LocationSearchTerm,
+    }
+    // Uploads the word onto the database
+    database.ref().push(newWord);
+
+
+    // <======================= Webster Dictionary ======================>
 
     queryURL = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/" + wordSearch + "?key=6f391cdf-76f7-4e3f-bfda-ef1e3db34d04"
     $.ajax({
         url: queryURL,
         method: "GET",
-        type: JSON,
+        type: JSON
     }).then(function (response) {
-        if(typeof response[0] === "object"){
-        console.log(response);
-        var def = response[0].shortdef[0];
-        var defRow = $("<tr>");
-        var defData = $("<td>");
-        defData.text("Webster Definition: " + def);
-        defRow.append(defData);
-        $("#webBody").append("<br><hr><br>");
-        $("#webBody").append(defRow);
-        $("#webBody").append("<br><hr><br>");
+        if (typeof response[0] === "object") {
+            console.log(response);
+            var def = response[0].shortdef[0];
+            var defRow = $("<tr>");
+            var defData = $("<td>");
+            defData.text("Webster Definition: " + def);
+            defRow.append(defData);
+            $("#webBody").append("<br><hr><br>");
+            $("#webBody").append(defRow);
+            $("#webBody").append("<br><hr><br>");
         }
-        else{
+        else {
             console.log(response)
-            var nullResponse = "This is not a formal word.";
+            var nullResponse = "This is not a formal word on webster dictionary.";
             var nullRow = $("<tr>");
             var nullData = $("<td>");
             nullData.text(nullResponse);
@@ -53,9 +87,16 @@ $("#submitButton").on("click", function (event) {
             $("#webBody").append(nullRow);
             $("#webBody").append("<br><hr><br>");
         }
+
+        // Clear value on text box
+        $("#theWord").val("");
+
     });
 
-    // <======================= Andrew ======================>
+    // <======================= Urban Dictionary ======================>
+
+    // Show no filter button
+    $("#noFilter").show();
 
     $(".urbanRow").empty();
     // $(".clearRow").empty(); I don't see this class :)
@@ -79,12 +120,45 @@ $("#submitButton").on("click", function (event) {
             tableRow.append(tableData);
             // tableRow.append(theInput); not sure what this does? :)
 
-            $("#urbanBody").append(tableRow);
+            $("#collapseExample").append(tableRow);
             // $("#EnterWord").val("") where are you getting this? LOL
         }
     });
 
 });
+
+
+
+
+
+// <======================== Firebase History Call ========================>
+
+
+// set count to 0
+var count = 0;
+// when a new word has been added to the database perform the following function
+database.ref().on("child_added", function (childSnapshot) {
+    // Increase the count by 1
+    count++
+    // Append the user input search word into a list on the DOM
+    $(".wordSearchHistory").append("<li class='searchedWords'>" + childSnapshot.val().wordSearch + "</li>")
+    var searchWord = childSnapshot.val().wordSearch;
+    var searchLocation = childSnapshot.val().LocationSearchTerm;
+    // Clear the word count so only the latest count appears
+    $(".firebaseWordCount").empty()
+    $(".firebaseWordCount").append("There have been " + count + " words searched.")
+
+}, function (errorObject) {
+    console.log("Errors handled: " + errorObject.code);
+});
+
+
+
+
+// <======================== Translator ========================>
+
+
+
 
 
 // <======================== This is the Zomato Section ========================>

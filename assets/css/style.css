@@ -1,5 +1,9 @@
 /* Our styling */
 
+body {
+    margin: 0 auto;
+}
+
 /* Table Body */
 #tbody {
     width: 500px;

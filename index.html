@@ -14,18 +14,18 @@
 <body>
     <!-- Header / starter -->
     <header>
-        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-light" style="background-color: #818181;">
             <div class="col-1"></div>
             <div class="col-2">
                 <!-- Image and text for header -->
-                <a class="navbar-brand" href="#">
-                    <img src="assets/images/otter.png" width="30" height="30" class="d-inline-block align-top"
-                        alt="inspector-otter">
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/images/inspectorotter.png" width="100" height="100"
+                        class="d-inline-block align-top" alt="inspector-otter">
                     Inspector Otter
                 </a>
             </div>
             <div class="col-4"></div>
-            <div class="col-3">
+            <div class="col-4">
                 <!-- Search bar on header -->
                 <form class="form-inline">
                     <input class="form-control mr-sm-2" id="theWord" type="search" placeholder="Search"
@@ -33,7 +33,7 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" id="submitButton" type="submit">Search</button>
                 </form>
             </div>
-            <div class="col-2"></div>
+            <div class="col-1"></div>
         </nav>
     </header>
 
@@ -46,6 +46,18 @@
             <tbody id="webBody">
             </tbody>
             <tbody id="urbanBody">
+                <br>
+                <button class="btn btn-primary" id="noFilter" type="button" data-toggle="collapse"
+                    data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    No Filter
+                </button>
+                <div class="collapse" id="collapseExample">
+                </div>
+            </tbody>
+            <tbody id="traBody">
+                Translation:
+            </tbody>
+            <tbody id="countBody">
             </tbody>
             <tbody id="t2body">
             </tbody>

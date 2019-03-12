@@ -8,10 +8,11 @@
 
 // Setting up html for the word search
 var firebaseSection = $("<section>").addClass("firebaseSection");
-var searchHistoryHeader = $("<h3>").addClass("wordSearchHistoryHeader").text("See all the amazing words being searched using Inspector Otter's search tool: ");
+var searchHistoryHeader = $("<h6>").addClass("wordSearchHistoryHeader").text("Previous Searches: ");
 var searchHistoryArea = $("<ul>").addClass("wordSearchHistory");
-var howmanywordssearched = $("<section>").addClass("firebaseWordCount");
+var howmanywordssearched = $("<div>").addClass("firebaseWordCount");
 $("#countBody").append(firebaseSection);
+$(".firebaseSection").append("<hr>");
 $(".firebaseSection").append(searchHistoryHeader);
 $(".firebaseSection").append(searchHistoryArea);
 $(".firebaseSection").append(howmanywordssearched);
@@ -81,14 +82,14 @@ $("#submitButton").on("click", function (event) {
             var def = response[0].shortdef[0];
             var defRow = $("<tr>");
             var defData = $("<td>");
-            defData.text("Webster Definition: " + def);
+            defData.text("Official Definition: " + def);
             defRow.append(defData);
             $("#webBody").append(defRow);
             $("#webBody").append("<br><hr><br>");
         }
         else {
             console.log(response)
-            var nullResponse = "This is not a formal word on webster dictionary.";
+            var nullResponse = "This is not a official word.";
             var nullRow = $("<tr>");
             var nullData = $("<td>");
             nullData.text(nullResponse);
@@ -96,9 +97,6 @@ $("#submitButton").on("click", function (event) {
             $("#webBody").append(nullRow);
             $("#webBody").append("<br><hr><br>");
         }
-
-        // Clear value on text box
-        // $("#theWord").val("");
 
     });
 
@@ -111,7 +109,7 @@ $("#submitButton").on("click", function (event) {
     $(".urbanRow").empty();
     var wordSearch = $("#theWord").val().trim();
 
-    var urbanDictionaryAppend = "<button class='btn btn-primary' id='noFilter' type='button' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'> No Filter</button><br><div class='collapse' id='collapseExample'></div><br><hr><br>";
+    var urbanDictionaryAppend = "<button class='btn btn-primary' id='noFilter' type='button' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'>Unofficial Definition</button><br><div class='collapse' id='collapseExample'></div><br><hr><br>";
     $("#urbanBody").append(urbanDictionaryAppend);
 
     var urbanDictionaryQuery = 'http://api.urbandictionary.com/v0/define?term={' + wordSearch + '}'
@@ -125,7 +123,7 @@ $("#submitButton").on("click", function (event) {
         $(".emojiRow").empty();
 
         for (i = 0; i < 1; i++) {
-            var wordDefinition = 'Urban Dictionary Definition: ' + response.list[i].definition;
+            var wordDefinition = 'Unofficial Definition: ' + response.list[i].definition;
             var thumbsUp = ' : ' + response.list[i].thumbs_up;
             console.log(thumbsUp);
             var tableRowOne = $("<tr>").addClass("urbanRow");
@@ -267,7 +265,7 @@ database.ref().on("child_added", function (childSnapshot) {
 
 
 // For styling link to our jumble.js
-$('h3').jumble([200,160,90],[230,20,130],true,false,1000);
+$('h4').jumble([200,160,90],[230,20,130],true,false,1000);
 
 
 
@@ -280,7 +278,7 @@ $('h3').jumble([200,160,90],[230,20,130],true,false,1000);
 
 //  Declaring variables for the Zomato Search forms and buttons
 var zomatoSearchBox = $('<section>', { class: 'zomato' });
-var locationSearch = "<br><hr><br><form style='width: 350px;'><div class='form-group'><label for='InputLocation'>Grab a friend and use your new word at a cafe!</label><input type='text' class='form-control' id='InputLocation' placeholder='Enter Location'><small class='privacy' id='privacy'>Privacy information<span class='privacyText'>Your information is proected by the PRIVACY ACT OF 1974</span></small></div></form>"
+var locationSearch = "<form style='width: 350px;'><div class='form-group'><label for='InputLocation'>Grab a friend and use your new word at a cafe!</label><input type='text' class='form-control' id='InputLocation' placeholder='Enter Location'><small class='privacy' id='privacy'>Privacy information<span class='privacyText'>Your information is proected by the PRIVACY ACT OF 1974</span></small></div></form>"
 var goSocial = $("<button>").text("Go Social").addClass("socialButton")
 var clearZomatoSearch = $("<button>").text("Clear Search").addClass("clearZomatoData").css({ margin: "10px" })
 

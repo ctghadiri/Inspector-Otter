@@ -34,8 +34,6 @@ var wordSearch = " ";
 var LocationSearchTerm = " ";
 var wordArray = [];
 
-// Hide colapsable button
-$("#noFilter").hide();
 
 
 
@@ -45,8 +43,15 @@ $("#noFilter").hide();
 // When submit button is clicked
 $("#submitButton").on("click", function (event) {
     event.preventDefault();
+    $("#webBody").empty();
+    $("#urbanBody").empty();
+    $("#theader").empty();
     var wordSearch = $("#theWord").val().trim();
     console.log(wordSearch);
+
+    // Display the word
+    $("#theader").append("<h1>" + wordSearch);
+
 
     // push word into Array
     //wordArray.push(wordSearchTerm)
@@ -60,9 +65,9 @@ $("#submitButton").on("click", function (event) {
 
     // <======================= Webster Dictionary ======================>
 
-    queryURL = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/" + wordSearch + "?key=6f391cdf-76f7-4e3f-bfda-ef1e3db34d04"
+    queryURLwd = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/" + wordSearch + "?key=6f391cdf-76f7-4e3f-bfda-ef1e3db34d04"
     $.ajax({
-        url: queryURL,
+        url: queryURLwd,
         method: "GET",
         type: JSON
     }).then(function (response) {
@@ -95,11 +100,9 @@ $("#submitButton").on("click", function (event) {
 
     // <======================= Urban Dictionary ======================>
 
-    // Show no filter button
-    $("#noFilter").show();
-
-    $(".urbanRow").empty();
-    // $(".clearRow").empty(); I don't see this class :)
+    // Creating dynamic DOM
+    var urbanDictionaryAppend = "<button class='btn btn-primary' id='noFilter' type='button' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'> No Filter</button><br><div class='collapse' id='collapseExample'></div><br><hr><br>";
+    $("#urbanBody").append(urbanDictionaryAppend);
 
     var urbanDictionaryQuery = 'http://api.urbandictionary.com/v0/define?term=' + wordSearch;
     $.ajax({
@@ -108,20 +111,16 @@ $("#submitButton").on("click", function (event) {
     }).then(function (response) {
         console.log(response);
 
-        // var wordTableRow = $("<tr>").text(wordSearch).addClass("clearRow");
-        // $("#urbanBody").append(wordTableRow);
+        $(".urbanRow").empty();
 
         for (i = 0; i < 1; i++) {
             var wordDefinition = 'Urban Dictionary Definition: ' + response.list[i].definition;
-            // var theInput = $("<tr>").addClass("urbanRow"); not sure what this is doing? :)
             var tableRow = $("<tr>").addClass("urbanRow");
             var tableData = $("<td>").text(wordDefinition);
 
             tableRow.append(tableData);
-            // tableRow.append(theInput); not sure what this does? :)
 
             $("#collapseExample").append(tableRow);
-            // $("#EnterWord").val("") where are you getting this? LOL
         }
     });
 
@@ -157,6 +156,95 @@ database.ref().on("child_added", function (childSnapshot) {
 
 // <======================== Translator ========================>
 
+var translationButtonArea = $("<section>").addClass("translationbuttonsgohere");
+$("#traBody").append("<br>");
+$("#traBody").append(translationButtonArea);
+$("#traBody").append("<br>");
+
+var translationSearchResults = $("<section>").addClass("translationsearchresultsgohere");
+$("#traBody").append(translationSearchResults);
+
+// translation buttons
+
+var russia = $("<button>").text("Russian").addClass("translatorButton").attr('id', "russian");
+var spanish = $("<button>").text("Spanish").addClass("translatorButton").attr('id', "spanish");
+var china = $("<button>").text("Chinese").addClass("translatorButton").attr('id', "chinese");
+
+$(".translationbuttonsgohere").append(russia);
+$(".translationbuttonsgohere").append(spanish);
+$(".translationbuttonsgohere").append(china);
+
+
+
+$("#russian").on("click", function displayRussianTranslation() {
+    $(".translationsearchresultsgohere").empty();
+
+    // var theWord = $("#theWord").val();
+    console.log(theWord);
+    var queryURLtr = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=ru&[format=plain]$[options=1]";
+
+    $.ajax({
+        url: queryURLtr,
+        method: "GET"
+    }).then(function (russian) {
+        console.log(russian);
+        if (russian) {
+
+            russian.text[0];
+            $(".translationsearchresultsgohere").append("<br>" + "<p>" + russian.text[0] + "</p>" + "<br>");
+
+            console.log(russian.text[0])
+        }
+    })
+})
+
+$("#spanish").on("click", function displaySpanishTranslation() {
+    $(".translationsearchresultsgohere").empty();
+
+    //   var theWord = $("#theWord").val();
+    console.log(theWord);
+
+
+    var queryURLes = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=es&[format=plain]$[options=1]";
+
+    $.ajax({
+        url: queryURLes,
+        method: "GET"
+    }).then(function (spanish) {
+        console.log(spanish);
+        if (spanish) {
+            spanish.text[0];
+            $(".translationsearchresultsgohere").append("<br>" + "<p>" + spanish.text[0] + "</p>" + "<br>");
+            console.log(spanish.text[0])
+        }
+    })
+})
+
+$("#chinese").on("click", function displayChineseTranslation() {
+    $(".translationsearchresultsgohere").empty();
+
+    //   var theWord = $("#theWord").val();
+    console.log(theWord);
+
+    var queryURLzh = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=zh&[format=plain]$[options=1]";
+
+
+    $.ajax({
+        url: queryURLzh,
+        method: "GET"
+    }).then(function (chinese) {
+        console.log(JSON.stringify(chinese));
+        if (chinese) {
+            var dataEntries = chinese.text[0];
+            console.log(JSON.stringify(dataEntries));
+            $(".translationsearchresultsgohere").append("<br>" + "<p>" + dataEntries + "</p>" + "<br>");
+            console.log(chinese.text[0]);
+
+
+        }
+    })
+
+})
 
 
 

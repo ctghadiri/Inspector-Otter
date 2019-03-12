@@ -3,6 +3,7 @@
 
 
 
+
 // <======================= Firebase =======================>
 
 // Setting up html for the word search
@@ -31,8 +32,7 @@ var database = firebase.database();
 
 // Initial Variables (SET the first set IN FIREBASE FIRST)
 var wordSearch = " ";
-var LocationSearchTerm = " ";
-var wordArray = [];
+// var LocationSearchTerm = " ";
 
 
 
@@ -46,21 +46,26 @@ $("#submitButton").on("click", function (event) {
     $("#webBody").empty();
     $("#urbanBody").empty();
     $("#theader").empty();
+    $("#traBody").empty();
     var wordSearch = $("#theWord").val().trim();
     console.log(wordSearch);
+    console.log(theWord);
+
 
     // Display the word
-    $("#theader").append("<h1>" + wordSearch);
+    $("#theader").append("<br>" + "You searched the word: " + "<h1>" + wordSearch);
 
 
     // push word into Array
     //wordArray.push(wordSearchTerm)
     var newWord = {
         wordSearch: wordSearch,
-        LocationSearchTerm: LocationSearchTerm,
+        // LocationSearchTerm: LocationSearchTerm,
     }
     // Uploads the word onto the database
     database.ref().push(newWord);
+
+
 
 
     // <======================= Webster Dictionary ======================>
@@ -78,7 +83,6 @@ $("#submitButton").on("click", function (event) {
             var defData = $("<td>");
             defData.text("Webster Definition: " + def);
             defRow.append(defData);
-            $("#webBody").append("<br><hr><br>");
             $("#webBody").append(defRow);
             $("#webBody").append("<br><hr><br>");
         }
@@ -94,17 +98,23 @@ $("#submitButton").on("click", function (event) {
         }
 
         // Clear value on text box
-        $("#theWord").val("");
+        // $("#theWord").val("");
 
     });
 
+
+
+
+
     // <======================= Urban Dictionary ======================>
 
-    // Creating dynamic DOM
+    $(".urbanRow").empty();
+    var wordSearch = $("#theWord").val().trim();
+
     var urbanDictionaryAppend = "<button class='btn btn-primary' id='noFilter' type='button' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'> No Filter</button><br><div class='collapse' id='collapseExample'></div><br><hr><br>";
     $("#urbanBody").append(urbanDictionaryAppend);
 
-    var urbanDictionaryQuery = 'http://api.urbandictionary.com/v0/define?term=' + wordSearch;
+    var urbanDictionaryQuery = 'http://api.urbandictionary.com/v0/define?term={' + wordSearch + '}'
     $.ajax({
         url: urbanDictionaryQuery,
         method: "GET",
@@ -112,17 +122,120 @@ $("#submitButton").on("click", function (event) {
         console.log(response);
 
         $(".urbanRow").empty();
+        $(".emojiRow").empty();
 
         for (i = 0; i < 1; i++) {
             var wordDefinition = 'Urban Dictionary Definition: ' + response.list[i].definition;
-            var tableRow = $("<tr>").addClass("urbanRow");
-            var tableData = $("<td>").text(wordDefinition);
+            var thumbsUp = ' : ' + response.list[i].thumbs_up;
+            console.log(thumbsUp);
+            var tableRowOne = $("<tr>").addClass("urbanRow");
+            var tableRowTwo = $("<tr>").addClass("emojiRow");
+            var tableDataOne = $("<td>").text(wordDefinition);
+            var tableDataTwo = $("<td>").html("👍" + thumbsUp);
 
-            tableRow.append(tableData);
+            console.log(tableDataTwo);
+            tableRowOne.append(tableDataOne);
+            tableRowTwo.append(tableDataTwo);
 
-            $("#collapseExample").append(tableRow);
+            $("#collapseExample").append(tableRowOne, tableRowTwo);
         }
     });
+
+
+
+
+    // <======================== Translator ========================>
+
+    var translationButtonArea = $("<section>").addClass("translationbuttonsgohere");
+    $("#traBody").append("<br>" + "<h6>" + "Translation: ");
+    $("#traBody").append(translationButtonArea);
+    $("#traBody").append("<br>");
+
+    var translationSearchResults = $("<section>").addClass("translationsearchresultsgohere");
+    $("#traBody").append(translationSearchResults);
+    $("#traBody").append("<hr>");
+
+    // translation buttons
+
+    var russia = $("<button>").text("Russian").addClass("translatorButton").attr('id', "russian");
+    var spanish = $("<button>").text("Spanish").addClass("translatorButton").attr('id', "spanish");
+    var china = $("<button>").text("Chinese").addClass("translatorButton").attr('id', "chinese");
+
+    $(".translationbuttonsgohere").append(russia);
+    $(".translationbuttonsgohere").append(spanish);
+    $(".translationbuttonsgohere").append(china);
+
+
+
+    $("#russian").on("click", function displayRussianTranslation() {
+        $(".translationsearchresultsgohere").empty();
+
+        var theWord = $("#theWord").val();
+        console.log(theWord);
+        var queryURLtr = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=ru&[format=plain]$[options=1]";
+
+        $.ajax({
+            url: queryURLtr,
+            method: "GET"
+        }).then(function (russian) {
+            console.log(russian);
+            if (russian) {
+
+                russian.text[0];
+                $(".translationsearchresultsgohere").append("<br>" + "<p>" + russian.text[0] + "</p>" + "<br>");
+
+                console.log(russian.text[0])
+            }
+        })
+    })
+
+    $("#spanish").on("click", function displaySpanishTranslation() {
+        $(".translationsearchresultsgohere").empty();
+
+        var theWord = $("#theWord").val();
+        console.log(theWord);
+
+
+        var queryURLes = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=es&[format=plain]$[options=1]";
+
+        $.ajax({
+            url: queryURLes,
+            method: "GET"
+        }).then(function (spanish) {
+            console.log(spanish);
+            if (spanish) {
+                spanish.text[0];
+                $(".translationsearchresultsgohere").append("<br>" + "<p>" + spanish.text[0] + "</p>" + "<br>");
+                console.log(spanish.text[0])
+            }
+        })
+    })
+
+    $("#chinese").on("click", function displayChineseTranslation() {
+        $(".translationsearchresultsgohere").empty();
+
+        var theWord = $("#theWord").val();
+        console.log(theWord);
+
+        var queryURLzh = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=zh&[format=plain]$[options=1]";
+
+
+        $.ajax({
+            url: queryURLzh,
+            method: "GET"
+        }).then(function (chinese) {
+            console.log(JSON.stringify(chinese));
+            if (chinese) {
+                var dataEntries = chinese.text[0];
+                console.log(JSON.stringify(dataEntries));
+                $(".translationsearchresultsgohere").append("<br>" + "<p>" + dataEntries + "</p>" + "<br>");
+                console.log(chinese.text[0]);
+
+
+            }
+        })
+
+    })
 
 });
 
@@ -142,7 +255,7 @@ database.ref().on("child_added", function (childSnapshot) {
     // Append the user input search word into a list on the DOM
     $(".wordSearchHistory").append("<li class='searchedWords'>" + childSnapshot.val().wordSearch + "</li>")
     var searchWord = childSnapshot.val().wordSearch;
-    var searchLocation = childSnapshot.val().LocationSearchTerm;
+    // var searchLocation = childSnapshot.val().LocationSearchTerm;
     // Clear the word count so only the latest count appears
     $(".firebaseWordCount").empty()
     $(".firebaseWordCount").append("There have been " + count + " words searched.")
@@ -153,98 +266,11 @@ database.ref().on("child_added", function (childSnapshot) {
 
 
 
-
-// <======================== Translator ========================>
-
-var translationButtonArea = $("<section>").addClass("translationbuttonsgohere");
-$("#traBody").append("<br>");
-$("#traBody").append(translationButtonArea);
-$("#traBody").append("<br>");
-
-var translationSearchResults = $("<section>").addClass("translationsearchresultsgohere");
-$("#traBody").append(translationSearchResults);
-
-// translation buttons
-
-var russia = $("<button>").text("Russian").addClass("translatorButton").attr('id', "russian");
-var spanish = $("<button>").text("Spanish").addClass("translatorButton").attr('id', "spanish");
-var china = $("<button>").text("Chinese").addClass("translatorButton").attr('id', "chinese");
-
-$(".translationbuttonsgohere").append(russia);
-$(".translationbuttonsgohere").append(spanish);
-$(".translationbuttonsgohere").append(china);
+// For styling link to our jumble.js
+$('h3').jumble([200,160,90],[230,20,130],true,false,1000);
 
 
 
-$("#russian").on("click", function displayRussianTranslation() {
-    $(".translationsearchresultsgohere").empty();
-
-    // var theWord = $("#theWord").val();
-    console.log(theWord);
-    var queryURLtr = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=ru&[format=plain]$[options=1]";
-
-    $.ajax({
-        url: queryURLtr,
-        method: "GET"
-    }).then(function (russian) {
-        console.log(russian);
-        if (russian) {
-
-            russian.text[0];
-            $(".translationsearchresultsgohere").append("<br>" + "<p>" + russian.text[0] + "</p>" + "<br>");
-
-            console.log(russian.text[0])
-        }
-    })
-})
-
-$("#spanish").on("click", function displaySpanishTranslation() {
-    $(".translationsearchresultsgohere").empty();
-
-    //   var theWord = $("#theWord").val();
-    console.log(theWord);
-
-
-    var queryURLes = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=es&[format=plain]$[options=1]";
-
-    $.ajax({
-        url: queryURLes,
-        method: "GET"
-    }).then(function (spanish) {
-        console.log(spanish);
-        if (spanish) {
-            spanish.text[0];
-            $(".translationsearchresultsgohere").append("<br>" + "<p>" + spanish.text[0] + "</p>" + "<br>");
-            console.log(spanish.text[0])
-        }
-    })
-})
-
-$("#chinese").on("click", function displayChineseTranslation() {
-    $(".translationsearchresultsgohere").empty();
-
-    //   var theWord = $("#theWord").val();
-    console.log(theWord);
-
-    var queryURLzh = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=zh&[format=plain]$[options=1]";
-
-
-    $.ajax({
-        url: queryURLzh,
-        method: "GET"
-    }).then(function (chinese) {
-        console.log(JSON.stringify(chinese));
-        if (chinese) {
-            var dataEntries = chinese.text[0];
-            console.log(JSON.stringify(dataEntries));
-            $(".translationsearchresultsgohere").append("<br>" + "<p>" + dataEntries + "</p>" + "<br>");
-            console.log(chinese.text[0]);
-
-
-        }
-    })
-
-})
 
 
 

@@ -108,7 +108,7 @@ $("#submitButton").on("click", function (event) {
     var urbanDictionaryAppend = "<button class='btn btn-danger' id='noFilter' type='button' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'>Unofficial Definition</button><br><div class='collapse' id='collapseExample'></div><br><hr><br>";
     $("#urbanBody").append(urbanDictionaryAppend);
 
-    var urbanDictionaryQuery = 'http://api.urbandictionary.com/v0/define?term={' + wordSearch + '}'
+    var urbanDictionaryQuery = 'https://api.urbandictionary.com/v0/define?term=' + wordSearch;
     $.ajax({
         url: urbanDictionaryQuery,
         method: "GET",

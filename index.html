@@ -9,12 +9,13 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
 </head>
 
 <body>
     <!-- Header / starter -->
     <header>
-        <nav class="navbar navbar-light" style="background-color: lightslategrey;">
+        <nav class="navbar navbar-light" id="navbar" style="background-color: lightslategrey;">
             <div class="col-6">
                 <!-- Image and text for header -->
                 <a class="navbar-brand" href="index.html">
@@ -28,7 +29,8 @@
                 <form class="form-inline">
                     <input class="form-control mr-sm-2" id="theWord" type="search" placeholder="Word Search"
                         aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" id="submitButton" type="submit">Search</button>
+                    <!-- <button class="btn btn-outline-success my-2 my-sm-0" id="submitButton" type="submit">Search</button> -->
+                    <button class="btn btn-warning my-2 my-sm-0" id="submitButton" type="submit">Search</button>
                 </form>
             </div>
         </nav>
@@ -110,8 +112,8 @@
 
     <!-- Footer - bottom part of the page -->
     <footer class="page-footer">
-        <div class="card" id="card-footer"></div>
-        <a type="input" class="btn btn-info btn-lg" id="about" data-toggle="modal" data-target="#myModal">About</a>
+        <br>
+        <a type="input" class="btn btn-light" id="about" data-toggle="modal" data-target="#myModal">About</a>
         <div class="card-body" id="card-body-footer">
             Copyright © Inspector Otter Group 6, LLC. All rights reserved
         </div>
@@ -125,13 +127,39 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">About</h4>
+                        <h4 class="modal-title">About The Team</h4>
                     </div>
                     <div class="modal-body">
                         <p>
                             <h4>Andrew Xie </h4> Andrew is a recent college graduate with a degree in International
-                            Politics. He
-                            hopes that this bootcamp will be the first step towards a career in web development.
+                            Politics. He hopes that this bootcamp will be the first step towards a career in web
+                            development.
+                        </p>
+                        <p>
+                            <h4> Cyrus Ghadiri </h4>UC Berkeley full-stack student with interests in moving into
+                            back-end web development. Fun fact: Cyrus ravels to a new country every year.
+                        </p>
+
+                        <p>
+                            <h4>Jennifer Powell </h4> Born and raised in the bay area, Jennifer has spent the last
+                            several years working in public accounting. She currently attends UC Berkley extension
+                            Coding Bootcamp with the hopes of switching careers into web and software development. Fun
+                            fact: Jennifer has been skydiving!
+                        </p>
+
+                        <p>
+                            <h4>Kevin Choi </h4> Kevin Choi comes from a background in IT Infrastructure specializing in
+                            hybrid system deployment using co-locations, AWS, Azure, Rackspace, and SoftLayer. His goal
+                            is to develop tools that will help collaborate hardware and software incompatibilities, both
+                            technologically and departmentally.
+                        </p>
+
+                        <p>
+                            <h4>Shayan Anoushiravani </h4> Shayan is a Bay Area native and UC Davis graduate in Design,
+                            who enjoys the outdoors and art. He is currently on the path to becoming a combo of UX
+                            designer, graphic designer, and software developer. He is a fast walker, and a slow talker.
+                            Fun fact: Shayan has an amazing cat named Phineas. His hobbies include drawing, cooking, and
+                            gardening.
                         </p>
                     </div>
                     <div class="modal-footer">

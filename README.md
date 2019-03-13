@@ -23,8 +23,8 @@ If you answered YES to any of the questions above, HAVE NO FEAR! Inspector Otter
     * [Jumble](#jumble) 
     * [Bideo.js](#bideo)
     * [JavaScript](#java)
-    * [JQuery](#java)
-    * [AJAX](#ajax)
+    * [jQuery](#java)
+    * [AJAX/API Technologies](#ajax)
     * [Firebase](#firebase)
 - [Deployed Site](#deployed)
 - [Meet the Authors](#authors)
@@ -38,45 +38,46 @@ If you answered YES to any of the questions above, HAVE NO FEAR! Inspector Otter
 
 Upon loading our site, the user will see several items displayed on the screen. 
 1) A background video of waves coming ashore.
-2) A grey navigation bar at the top of the webpage displaying Inspector Otter's Logo to the left and a word search bar to the right with a yellow submit button. 
-3) A search area to the left where the user may put in their location and find cafes near them (as people who search word definitions may be new to the area). 
+2) A gray navigation bar at the top of the webpage displaying Inspector Otter's Logo to the left and a word search bar to the right with a yellow submit button. 
+3) A search area to the left where users can input their location and find cafes near the location that was input (as people who search word definitions may be new to the area). 
 4) An area where previously search words are displayed for the user to see. 
-5) A dark blue colored footer with an About button. 
+5) A dark-blue colored footer with an About button. 
 
 Upon clicking the **submit** button for a search word within the navigation bar, the user will be shown the **Merriam-Webster** definition of the word, along with several **new** buttons. The four new buttons that appear when a user searches a word are **Spanish**, **Chinese**, **Russian** and **Unofficial Definition**. 
 
-When clicked, the Spanish Chinese and Russian buttons, display the searched word's **translation**. When the unofficial definition button is clicked, the **Urban Dictionary** definition of the word searched is displayed. 
+When any one of the Spanish, Chinese, or Russian buttons are clicked, the searched word's **translation** will be displayed. When the unofficial definition button is clicked, the **Urban Dictionary** definition of the word searched is displayed. 
 
-When a user searches a location within the cafe search, images and information regarding local cafes are displayed so the user may get acquainted with the area as they may be new to the city or traveling from far away.
+When a user inputs a location into the search bar of the cafe search function, images and other information regarding local cafes will be  displayed for user convenience.
 
-In terms of styling the webpage, we used <a name="bootstrap">BootStrap</a> display the Navigation Bar, the Footer, Buttons, About page popup and to make our website responsive. We also used our own CSS style sheet to change some colors, fonts, positioning. Additionally we used <a name="google"> GoogleFonts</a> to display our text using Inconsolata font.
+In terms of styling the webpage, we used <a name="bootstrap">BootStrap</a> to display the Navigation Bar, Footer, Buttons, a pop-up about page, and to make our website responsive. We also used our own CSS style sheet to change colors, fonts, positioning. Additionally we used the Inconsolata font from <a name="google"> Google Fonts</a> to display our text.
 
 #### <a name="jumble">Jumble</a>
 
-Jumble is a jQuery plugin that jumbles up the colors of your text headers, and can also animate them. We used this plugin to bring more color to our webpage. You can see the Jumble effect being used on the Names of the Authors on the About section of the website.
+Jumble is a jQuery plugin that jumbles up the colors of your text headers, and can also be animated. We used this plugin to bring more color to our webpage. You can see the Jumble effect being used on the names of the authors in the About section of the website.
 
 More information regarding Jumble can be found at: https://github.com/vonKristoff/jumble
 
 #### <a name="bideo">Bideo.js</a>
 
-Bideo.js is a JavaScript plugin which is a tool used to play a video in the background of a container/body. For our webpage we decided to feature a video of a string of waves crashing onto the beach for aesthetic reasons.
+Bideo.js is a JavaScript plugin used to play a video in the background of a container/body. For our webpage we decided to feature a video of a string of waves crashing onto the beach for aesthetic purposes.
 
 More information regarding Bideo.js can be found at: https://github.com/rishabhp/bideo.js 
 
 
-#### <a name="java">JavaScript & Jquery</a>
-The majority of our html webpage is being append through our JavaScript file using the Jquery library. Our JavaScript is organized ........
+#### <a name="java">JavaScript & jQuery</a>
+The majority of our HTML webpage is being dynamically generated through our JavaScript file using the jQuery library. Our JavaScript is organized by section, seperating the APIs we used in this project by section. 
 
 #### <a name="firebase">Firebase</a>
-We are storing the user-inputted word into Firebase and calling back to Firebase to display the word on the page 
+We are storing the user-inputted word into Firebase and calling back to Firebase to display the word on the page. We are also storing the count of the number of words that are stored in Firebase, which we can reset by deleting the data on Firebase. 
 
-#### <a name="ajax">AJAX</a>
+#### <a name="ajax">API Technologies</a>
 Our team uses several APIs for our Inspector Otter Webpage. 
 1) We are using Webster Dictionary API to retrieve the formal definitions of the word the user searches. https://www.merriam-webster.com/ 
 2) We use Urban Dictionary API to retrieve the informal/slang word definitions the user can view upon clicking on the unofficial definition button. https://www.urbandictionary.com/
-3) We incorporate google translate into our website through the Spanish, Chinese and Russian buttons. When a user clicks on these buttons, the translated word appears in the selected foreign language. https://cloud.google.com/translate/
+3) We incorporate Google Translate into our website through the Spanish, Chinese and Russian buttons. When a user clicks on one of these buttons, the translated word appears in the selected foreign language. https://cloud.google.com/translate/
 4) In addition we are using Zomato api which allows us to pull information related to restaurants near a location the user inputs. The idea is to recommend cafes for the user to check out since our target group are new people to the area. https://www.zomato.com/
-
+5) We use the music-match API to pull information regarding songs and lyrics which match to the user im that have the input word and matches it to music with lyrics regarding it. https://www.musiXmatch.com 
+6) We applied https://www.giphy.com to the webpage by pulling the user input and showing a gif regarding its vibe/essence 
 
 
 ---
@@ -90,9 +91,9 @@ Use the link to see the deployed site: https://kchoi123.github.io/GroupProject1/
 
 |     Author           |  Summary|    Fun Fact         | Hobbies    |
 |----------------------|---------|---------------------|------------|
-|<b>Andrew Xie :panda_face: <br><img src="assets/images/andrew.jpg" width="150px"> https://github.com/Xieandrew2235           |Andrew is a recent college graduate with a degree in International Politics. He hopes that this bootcamp will be the first step towards a career in web development. |Andrew graduated from college in China. | Watching sports games :baseball:  |
+|<b>Andrew Xie :panda_face: <br><img src="assets/images/andrew.jpg" width="150px"> https://github.com/Xieandrew2235           |Andrew is a recent college graduate with a degree in International Politics. He hopes that this bootcamp will be the first step towards a career in web development. |Andrew graduated from college in China. | Watching sports :baseball:  |
 |<b>Cyrus Ghadiri :hatching_chick: ![Cyrus' Picture](assets/images/cyrus.png) https://github.com/ctghadiri       |UC Berkeley full-stack student with interests in moving into back-end web development. |Travels to a new country every year. | Traveling :airplane:, Next stop Japan :jp:  |
-|<b>Jennifer Powell :koala: ![Jennifer's Picture](assets/images/jennifer.jpeg)  https://github.com/jerpowel321     |Born and raised in the bay area, Jennifer has spent the last several years working in public accounting. She currently attends UC Berkley extension Coding Bootcamp with the hopes of switching careers into web and software development.| Jennifer has been skydiving!| Card Games, :spades: :hearts: :clubs: :diamonds: Bowling, :bowling: Swimming :swimmer: |
+|<b>Jennifer Powell :koala: ![Jennifer's Picture](assets/images/jennifer.jpeg)  https://github.com/jerpowel321     |Born and raised in the Bay Area, Jennifer has spent the last several years working in public accounting. She currently attends UC Berkley extension Coding Bootcamp with the hopes of switching careers into web and software development.| Jennifer has been skydiving!| Card Games, :spades: :hearts: :clubs: :diamonds: Bowling, :bowling: Swimming :swimmer: |
 |<b>Kevin Choi :rice_ball: ![Kevin's Picture](assets/images/kevin.jpg)  https://github.com/kchoi123         |Kevin Choi comes from a background in IT Infrastructure specializing in hybrid system deployment using co-locations, AWS, Azure, Rackspace, and SoftLayer. His goal is to develop tools that will help collaborate hardware and software incompatibilities, both technologically and departmentally.| Kevin has played on the US Junior National Badminton Team   | Netflix and sitting on the couch with his dog Polo :dog:|
 |<b>Shayan Anoushiravani :cat: ![Shayan Picture](assets/images/shayan.png) https://github.com/shayansea  |Shayan is a Bay Area native and UC Davis graduate in Design, who enjoys the outdoors and art. He is currently on the path to becoming a combo of UX designer, graphic designer, and software developer. | Shayan has an amazing cat named Phineas. :cat: | Drawing, Cooking, Gardening :herb: |
 

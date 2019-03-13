@@ -14,35 +14,34 @@
 <body>
     <!-- Header / starter -->
     <header>
-        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-            <div class="col-1"></div>
-            <div class="col-2">
+        <nav class="navbar navbar-light" style="background-color: lightslategrey;">
+            <div class="col-6">
                 <!-- Image and text for header -->
-                <a class="navbar-brand" href="#">
-                    <img src="assets/images/otter.png" width="30" height="30" class="d-inline-block align-top"
-                        alt="inspector-otter">
-                    Inspector Otter
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/images/inspectorotter-main.png" width="450" height="150"
+                        class="d-inline-block align-top" alt="inspector-otter">
                 </a>
             </div>
-            <div class="col-4"></div>
-            <div class="col-3">
+            <div class="col-1"></div>
+            <div class="col-5">
                 <!-- Search bar on header -->
                 <form class="form-inline">
-                    <input class="form-control mr-sm-2" id="theWord" type="search" placeholder="Search"
+                    <input class="form-control mr-sm-2" id="theWord" type="search" placeholder="Word Search"
                         aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" id="submitButton" type="submit">Search</button>
                 </form>
             </div>
-            <div class="col-2"></div>
         </nav>
     </header>
 
     <!-- Starting materialize container -->
-    <div class="container">
+    <div class="container" id="mainContent">
         <!-- Page Content goes here -->
         <table>
             <theader id="theader">
             </theader>
+            <tbody id="traBody">
+            </tbody>
             <tbody id="webBody">
             </tbody>
             <tbody id="urbanBody">
@@ -51,13 +50,95 @@
             </tbody>
         </table>
     </div>
+    <br>
+    <div>
+        <div id="countBody">
+        </div>
+    </div>
+
+    <br>
+
+    <!-- Background movie -->
+    <div id="container">
+        <video id="background_video" autoplay loop muted>
+            <!-- <source src="" type="video/mp4"> -->
+        </video>
+    </div>
+
+    <script src="assets/javascript/bideo.js"></script>
+    <script src="assets/javascript/main.js"></script>
+
+    <script>
+        if (window.location.host.indexOf('github.io') !== -1 && window.location.protocol !== "https:") {
+            window.location.protocol = "https";
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #theader,
+        #traBody,
+        #webBody,
+        #urbanBody #countBody #t2body {
+            z-index: 2;
+        }
+
+        #container {
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -200;
+        }
+
+        #background_video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+            z-index: inherit;
+        }
+    </style>
 
     <!-- Footer - bottom part of the page -->
     <footer class="page-footer">
         <div class="card" id="card-footer"></div>
+        <a type="input" class="btn btn-info btn-lg" id="about" data-toggle="modal" data-target="#myModal">About</a>
         <div class="card-body" id="card-body-footer">
             Copyright © Inspector Otter Group 6, LLC. All rights reserved
         </div>
+        </div>
+
+        <!-- Shows in the popup -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">About</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <h4>Andrew Xie </h4> Andrew is a recent college graduate with a degree in International
+                            Politics. He
+                            hopes that this bootcamp will be the first step towards a career in web development.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -79,6 +160,7 @@
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
     <!-- Our JS -->
+    <script src="assets/javascript/jumble.js"></script>
     <script src="assets/javascript/app.js"></script>
     <script src="assets/javascript/Jennifer_app.js"></script>
     <script src="assets/javascript/cyrus_app.js"></script>

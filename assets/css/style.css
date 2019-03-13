@@ -1,5 +1,9 @@
 /* Our styling */
 
+body {
+    margin: 0 auto;
+}
+
 /* Table Body */
 #tbody {
     width: 500px;
@@ -32,8 +36,28 @@
     visibility: visible;
 }
 
+/* counter list */
+li {
+
+    float: left;
+    margin: 15px;
+ }
+
 /* Footer */
+.page-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    justify-self: center;
+}
+
 #card-body-footer {
     text-align: center;
     font-size: 10px;
 }
+
+#about {
+    width: 100px;
+    align-self: center;
+  }

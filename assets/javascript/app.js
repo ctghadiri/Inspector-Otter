@@ -1,51 +1,95 @@
 // Keep calm... JavaScript on
 
-// Initialize Firebase
-// var config = {
-//     apiKey: "AIzaSyBp9mMgv6puXZ6E6o8qepv16hybRG8B7QI",
-//     authDomain: "inspector-otter.firebaseapp.com",
-//     databaseURL: "https://inspector-otter.firebaseio.com",
-//     projectId: "inspector-otter",
-//     storageBucket: "inspector-otter.appspot.com",
-//     messagingSenderId: "349485035061"
-// };
-// firebase.initializeApp(config);
 
 
-// Calling Firebase
-// var database = firebase.database();
+
+
+// <======================= Firebase =======================>
+
+// Setting up html for the word search
+var firebaseSection = $("<section>").addClass("firebaseSection");
+var searchHistoryHeader = $("<h6>").addClass("wordSearchHistoryHeader").text("Previous Searches: ");
+var searchHistoryArea = $("<ul>").addClass("wordSearchHistory");
+var howmanywordssearched = $("<div>").addClass("firebaseWordCount");
+$("#countBody").append(firebaseSection);
+$(".firebaseSection").append("<hr>");
+$(".firebaseSection").append(searchHistoryHeader);
+$(".firebaseSection").append(searchHistoryArea);
+$(".firebaseSection").append(howmanywordssearched);
+
+// Initialize Firebase and change the values of the config values with your own Firebase config values.
+var config = {
+    apiKey: "AIzaSyBp9mMgv6puXZ6E6o8qepv16hybRG8B7QI",
+    authDomain: "inspector-otter.firebaseapp.com",
+    databaseURL: "https://inspector-otter.firebaseio.com",
+    projectId: "inspector-otter",
+    storageBucket: "inspector-otter.appspot.com",
+    messagingSenderId: "349485035061"
+};
+firebase.initializeApp(config);
+
+// Created a variable to reference the database
+var database = firebase.database();
+
+// Initial Variables (SET the first set IN FIREBASE FIRST)
+var wordSearch = " ";
+// var LocationSearchTerm = " ";
+
+
+
+
+// <======================= SUBMIT BUTTON ======================>
 
 
 // When submit button is clicked
 $("#submitButton").on("click", function (event) {
     event.preventDefault();
-
+    $("#webBody").empty();
+    $("#urbanBody").empty();
+    $("#theader").empty();
+    $("#traBody").empty();
     var wordSearch = $("#theWord").val().trim();
     console.log(wordSearch);
+    console.log(theWord);
 
-    
-    // <======================= Cyrus ======================>
 
-    queryURL = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/" + wordSearch + "?key=6f391cdf-76f7-4e3f-bfda-ef1e3db34d04"
+    // Display the word
+    $("#theader").append("<br>" + "You searched the word: " + "<h1>" + wordSearch);
+
+
+    // push word into Array
+    //wordArray.push(wordSearchTerm)
+    var newWord = {
+        wordSearch: wordSearch,
+        // LocationSearchTerm: LocationSearchTerm,
+    }
+    // Uploads the word onto the database
+    database.ref().push(newWord);
+
+
+
+
+    // <======================= Webster Dictionary ======================>
+
+    queryURLwd = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/" + wordSearch + "?key=6f391cdf-76f7-4e3f-bfda-ef1e3db34d04"
     $.ajax({
-        url: queryURL,
+        url: queryURLwd,
         method: "GET",
-        type: JSON,
+        type: JSON
     }).then(function (response) {
-        if(typeof response[0] === "object"){
-        console.log(response);
-        var def = response[0].shortdef[0];
-        var defRow = $("<tr>");
-        var defData = $("<td>");
-        defData.text("Webster Definition: " + def);
-        defRow.append(defData);
-        $("#webBody").append("<br><hr><br>");
-        $("#webBody").append(defRow);
-        $("#webBody").append("<br><hr><br>");
+        if (typeof response[0] === "object") {
+            console.log(response);
+            var def = response[0].shortdef[0];
+            var defRow = $("<tr>");
+            var defData = $("<td>");
+            defData.text("Official Definition: " + def);
+            defRow.append(defData);
+            $("#webBody").append(defRow);
+            $("#webBody").append("<br><hr><br>");
         }
-        else{
+        else {
             console.log(response)
-            var nullResponse = "This is not a formal word.";
+            var nullResponse = "This is not a official word.";
             var nullRow = $("<tr>");
             var nullData = $("<td>");
             nullData.text(nullResponse);
@@ -53,38 +97,180 @@ $("#submitButton").on("click", function (event) {
             $("#webBody").append(nullRow);
             $("#webBody").append("<br><hr><br>");
         }
+
     });
 
-    // <======================= Andrew ======================>
+
+
+
+
+    // <======================= Urban Dictionary ======================>
 
     $(".urbanRow").empty();
-    // $(".clearRow").empty(); I don't see this class :)
+    var wordSearch = $("#theWord").val().trim();
 
-    var urbanDictionaryQuery = 'http://api.urbandictionary.com/v0/define?term=' + wordSearch;
+    var urbanDictionaryAppend = "<button class='btn btn-primary' id='noFilter' type='button' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'>Unofficial Definition</button><br><div class='collapse' id='collapseExample'></div><br><hr><br>";
+    $("#urbanBody").append(urbanDictionaryAppend);
+
+    var urbanDictionaryQuery = 'http://api.urbandictionary.com/v0/define?term={' + wordSearch + '}'
     $.ajax({
         url: urbanDictionaryQuery,
         method: "GET",
     }).then(function (response) {
         console.log(response);
 
-        // var wordTableRow = $("<tr>").text(wordSearch).addClass("clearRow");
-        // $("#urbanBody").append(wordTableRow);
+        $(".urbanRow").empty();
+        $(".emojiRow").empty();
 
         for (i = 0; i < 1; i++) {
-            var wordDefinition = 'Urban Dictionary Definition: ' + response.list[i].definition;
-            // var theInput = $("<tr>").addClass("urbanRow"); not sure what this is doing? :)
-            var tableRow = $("<tr>").addClass("urbanRow");
-            var tableData = $("<td>").text(wordDefinition);
+            var wordDefinition = 'Unofficial Definition: ' + response.list[i].definition;
+            var thumbsUp = ' : ' + response.list[i].thumbs_up;
+            console.log(thumbsUp);
+            var tableRowOne = $("<tr>").addClass("urbanRow");
+            var tableRowTwo = $("<tr>").addClass("emojiRow");
+            var tableDataOne = $("<td>").text(wordDefinition);
+            var tableDataTwo = $("<td>").html("👍" + thumbsUp);
 
-            tableRow.append(tableData);
-            // tableRow.append(theInput); not sure what this does? :)
+            console.log(tableDataTwo);
+            tableRowOne.append(tableDataOne);
+            tableRowTwo.append(tableDataTwo);
 
-            $("#urbanBody").append(tableRow);
-            // $("#EnterWord").val("") where are you getting this? LOL
+            $("#collapseExample").append(tableRowOne, tableRowTwo);
         }
     });
 
+
+
+
+    // <======================== Translator ========================>
+
+    var translationButtonArea = $("<section>").addClass("translationbuttonsgohere");
+    $("#traBody").append("<br>" + "<h6>" + "Translation: ");
+    $("#traBody").append(translationButtonArea);
+    $("#traBody").append("<br>");
+
+    var translationSearchResults = $("<section>").addClass("translationsearchresultsgohere");
+    $("#traBody").append(translationSearchResults);
+    $("#traBody").append("<hr>");
+
+    // translation buttons
+
+    var russia = $("<button>").text("Russian").addClass("translatorButton").attr('id', "russian");
+    var spanish = $("<button>").text("Spanish").addClass("translatorButton").attr('id', "spanish");
+    var china = $("<button>").text("Chinese").addClass("translatorButton").attr('id', "chinese");
+
+    $(".translationbuttonsgohere").append(russia);
+    $(".translationbuttonsgohere").append(spanish);
+    $(".translationbuttonsgohere").append(china);
+
+
+
+    $("#russian").on("click", function displayRussianTranslation() {
+        $(".translationsearchresultsgohere").empty();
+
+        var theWord = $("#theWord").val();
+        console.log(theWord);
+        var queryURLtr = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=ru&[format=plain]$[options=1]";
+
+        $.ajax({
+            url: queryURLtr,
+            method: "GET"
+        }).then(function (russian) {
+            console.log(russian);
+            if (russian) {
+
+                russian.text[0];
+                $(".translationsearchresultsgohere").append("<br>" + "<p>" + russian.text[0] + "</p>" + "<br>");
+
+                console.log(russian.text[0])
+            }
+        })
+    })
+
+    $("#spanish").on("click", function displaySpanishTranslation() {
+        $(".translationsearchresultsgohere").empty();
+
+        var theWord = $("#theWord").val();
+        console.log(theWord);
+
+
+        var queryURLes = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=es&[format=plain]$[options=1]";
+
+        $.ajax({
+            url: queryURLes,
+            method: "GET"
+        }).then(function (spanish) {
+            console.log(spanish);
+            if (spanish) {
+                spanish.text[0];
+                $(".translationsearchresultsgohere").append("<br>" + "<p>" + spanish.text[0] + "</p>" + "<br>");
+                console.log(spanish.text[0])
+            }
+        })
+    })
+
+    $("#chinese").on("click", function displayChineseTranslation() {
+        $(".translationsearchresultsgohere").empty();
+
+        var theWord = $("#theWord").val();
+        console.log(theWord);
+
+        var queryURLzh = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190311T181013Z.7646236f1129cccc.633ebcb5e824239bfef44988b54d495a6d98188f&text=" + theWord + "&lang=zh&[format=plain]$[options=1]";
+
+
+        $.ajax({
+            url: queryURLzh,
+            method: "GET"
+        }).then(function (chinese) {
+            console.log(JSON.stringify(chinese));
+            if (chinese) {
+                var dataEntries = chinese.text[0];
+                console.log(JSON.stringify(dataEntries));
+                $(".translationsearchresultsgohere").append("<br>" + "<p>" + dataEntries + "</p>" + "<br>");
+                console.log(chinese.text[0]);
+
+
+            }
+        })
+
+    })
+
 });
+
+
+
+
+
+// <======================== Firebase History Call ========================>
+
+
+// set count to 0
+var count = 0;
+// when a new word has been added to the database perform the following function
+database.ref().on("child_added", function (childSnapshot) {
+    // Increase the count by 1
+    count++
+    // Append the user input search word into a list on the DOM
+    $(".wordSearchHistory").append("<li class='searchedWords'>" + childSnapshot.val().wordSearch + "</li>")
+    var searchWord = childSnapshot.val().wordSearch;
+    // var searchLocation = childSnapshot.val().LocationSearchTerm;
+    // Clear the word count so only the latest count appears
+    $(".firebaseWordCount").empty()
+    $(".firebaseWordCount").append("There have been " + count + " words searched.")
+
+}, function (errorObject) {
+    console.log("Errors handled: " + errorObject.code);
+});
+
+
+
+// For styling link to our jumble.js
+$('h4').jumble([200,160,90],[230,20,130],true,false,1000);
+
+
+
+
+
 
 
 // <======================== This is the Zomato Section ========================>
@@ -92,7 +278,7 @@ $("#submitButton").on("click", function (event) {
 
 //  Declaring variables for the Zomato Search forms and buttons
 var zomatoSearchBox = $('<section>', { class: 'zomato' });
-var locationSearch = "<br><hr><br><form style='width: 350px;'><div class='form-group'><label for='InputLocation'>Grab a friend and use your new word at a cafe!</label><input type='text' class='form-control' id='InputLocation' placeholder='Enter Location'><small class='privacy' id='privacy'>Privacy information<span class='privacyText'>Your information is proected by the PRIVACY ACT OF 1974</span></small></div></form>"
+var locationSearch = "<form style='width: 350px;'><div class='form-group'><label for='InputLocation'>Grab a friend and use your new word at a cafe!</label><input type='text' class='form-control' id='InputLocation' placeholder='Enter Location'><small class='privacy' id='privacy'>Privacy information<span class='privacyText'>Your information is proected by the PRIVACY ACT OF 1974</span></small></div></form>"
 var goSocial = $("<button>").text("Go Social").addClass("socialButton")
 var clearZomatoSearch = $("<button>").text("Clear Search").addClass("clearZomatoData").css({ margin: "10px" })
 

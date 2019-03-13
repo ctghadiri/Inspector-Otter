@@ -44,6 +44,7 @@ $("#submitButton").on("click", function (event) {
     $("#urbanBody").empty();
     $("#theader").empty();
     $("#traBody").empty();
+    $("#notStrong").empty();
     var wordSearch = $("#theWord").val().trim();
     console.log(wordSearch);
     console.log(theWord);
@@ -82,7 +83,7 @@ $("#submitButton").on("click", function (event) {
             defData.text("Official Definition: " + def);
             defRow.append(defData);
             $("#webBody").append(defRow);
-            $("#webBody").append("<br><hr><br>");
+            $("#webBody").append("<br>");
         }
         else {
             console.log(response)
@@ -92,20 +93,20 @@ $("#submitButton").on("click", function (event) {
             nullData.text(nullResponse);
             nullRow.append(nullData);
             $("#webBody").append(nullRow);
-            $("#webBody").append("<br><hr><br>");
+            $("#webBody").append("<br><hr>");
         }
 
     });
 
 
 
-    
+
 
 
     // <======================= Webster Gif ======================>
 
-    var ratingOne = "PG";
-    var queryWebsterURL = "https://api.giphy.com/v1/gifs/search?q=" + wordSearch + "&rating=" + ratingOne + "&api_key=tceid0lORIiPoWk6fnLih4aPyLUZpXku&limit=2"
+    var ratingOne = "PG-13";
+    var queryWebsterURL = "https://api.giphy.com/v1/gifs/search?q=" + wordSearch + "&rating=" + ratingOne + "&api_key=k6Uja7qOoPb0IxP4CrFv2IGnbSnJWYp3&limit=5"
     console.log(queryWebsterURL);
 
     $.ajax({
@@ -118,15 +119,19 @@ $("#submitButton").on("click", function (event) {
         console.log(resultW[1]);
         console.log(resultW[1].images.original_still.url);
 
-        var gifWebsterT = $("<tr>");
+        var gifWebsterTR = $("<tr>");
+        var gifWebsterTD = $("<td>");
         var gifWebsterImage = $("<img>");
 
-        gifWebsterT.append(gifWebsterImage);
+        gifWebsterTD.html(gifWebsterImage);
         gifWebsterImage.attr("src", resultW[1].images.fixed_height.url);
-
-        $("#webGif").append(gifWebsterT);
-
+        gifWebsterTR.append(gifWebsterTD);
+        $("#notStrong").append(gifWebsterTR);
+        $("#notStrong").append("<br><hr>");
     })
+
+   
+
 
 
 
@@ -171,8 +176,7 @@ $("#submitButton").on("click", function (event) {
     // <======================== Urban Gif ========================>
 
     var ratingTwo = "R";
-    queryUrbanGifURL = "https://api.giphy.com/v1/gifs/search?q=" + wordSearch + "&rating=" + ratingTwo + "&api_key=tceid0lORIiPoWk6fnLih4aPyLUZpXku&limit=1"
-
+    queryUrbanGifURL = "https://api.giphy.com/v1/gifs/search?q=" + wordSearch + "&rating=" + ratingTwo + "&api_key=WQglZzaDseLC1rFedrnkIA9dsPLoLx0W&limit=5"
 
     $.ajax({
         url: queryUrbanGifURL,

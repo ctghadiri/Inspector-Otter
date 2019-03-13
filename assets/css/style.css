@@ -1,7 +1,17 @@
 /* Our styling */
 
+html {
+    position: relative;
+    height: 100%;
+}
+
 body {
     margin: 0 auto;
+    font-family: 'Inconsolata', monospace;
+}
+
+#navbar {
+    opacity: .75;
 }
 
 /* Table Body */
@@ -10,6 +20,49 @@ body {
     margin: 0 auto;
 }
 
+#mainContent {
+    /* text-align: center; */
+}
+
+.translationSearchResultsGoHere p {
+    background-color: lightgoldenrodyellow;
+    opacity: .7;
+    border: 3px ridge white; 
+}
+
+.divider{
+    width:5px;
+    height:auto;
+    display:inline-block;
+}
+
+#webBody td {
+    background-color: lightgoldenrodyellow;
+    opacity: .7;
+    border: 3px ridge white;
+}
+
+.urbanRow td {
+    background-color: lightgoldenrodyellow;
+    opacity: .7;
+    border: 3px ridge white;
+}
+
+.emojiRow {
+    background-color: lightgoldenrodyellow;
+    opacity: .7;
+    border: 3px ridge white;
+}
+
+#mainContent {
+    margin: 0 10%;
+}
+
+.zomato {
+    background-color: lightgoldenrodyellow;
+    opacity: .7;
+    border: 3px ridge white;
+}
 
 /* Privacy Hover */
 .privacy {
@@ -36,28 +89,62 @@ body {
     visibility: visible;
 }
 
+.firebaseSection {
+    margin: auto;
+    background-color: lightgoldenrodyellow;
+    opacity: .7;
+}
+
 /* counter list */
 li {
 
     float: left;
     margin: 15px;
- }
+}
+
+
+
+
+
 
 /* Footer */
-.page-footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    justify-items: center;
-    justify-self: center;
-}
-
-#card-body-footer {
-    text-align: center;
-    font-size: 10px;
-}
 
 #about {
     width: 100px;
     align-self: center;
-  }
+}
+
+h6 {
+    text-align: center;
+    font-weight: 20px;
+}
+
+.firebaseSection{
+    margin: 0 10%;
+    color: #004777;
+    border: 3px ridge white;
+   
+}
+
+.firebaseWordCount{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.page-footer{
+    background-color: #004777;
+    border-top: 3px solid white;
+    position: absolute;
+    margin-bottom: 0%;
+    width: 100%;
+}
+
+.card-body{
+    text-align: center;
+    color: white; 
+}
+
+#about{
+   margin-left: 45%;
+}
+

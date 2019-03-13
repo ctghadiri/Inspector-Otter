@@ -8,11 +8,10 @@
 
 // Setting up html for the word search
 var firebaseSection = $("<section>").addClass("firebaseSection");
-var searchHistoryHeader = $("<h6>").addClass("wordSearchHistoryHeader").text("Previous Searches: ");
+var searchHistoryHeader = $("<h6>").addClass("wordSearchHistoryHeader container").text("Previous Word Searches: ");
 var searchHistoryArea = $("<ul>").addClass("wordSearchHistory");
 var howmanywordssearched = $("<div>").addClass("firebaseWordCount");
 $("#countBody").append(firebaseSection);
-$(".firebaseSection").append("<hr>");
 $(".firebaseSection").append(searchHistoryHeader);
 $(".firebaseSection").append(searchHistoryArea);
 $(".firebaseSection").append(howmanywordssearched);
@@ -33,9 +32,6 @@ var database = firebase.database();
 
 // Initial Variables (SET the first set IN FIREBASE FIRST)
 var wordSearch = " ";
-// var LocationSearchTerm = " ";
-
-
 
 
 // <======================= SUBMIT BUTTON ======================>
@@ -48,6 +44,7 @@ $("#submitButton").on("click", function (event) {
     $("#urbanBody").empty();
     $("#theader").empty();
     $("#traBody").empty();
+    $("#notStrong").empty();
     var wordSearch = $("#theWord").val().trim();
     console.log(wordSearch);
     console.log(theWord);
@@ -57,7 +54,7 @@ $("#submitButton").on("click", function (event) {
     $("#theader").append("<br>" + "You searched the word: " + "<h1>" + wordSearch);
 
 
-    // push word into Array
+
     //wordArray.push(wordSearchTerm)
     var newWord = {
         wordSearch: wordSearch,
@@ -65,6 +62,7 @@ $("#submitButton").on("click", function (event) {
     }
     // Uploads the word onto the database
     database.ref().push(newWord);
+
 
 
 
@@ -85,7 +83,7 @@ $("#submitButton").on("click", function (event) {
             defData.text("Official Definition: " + def);
             defRow.append(defData);
             $("#webBody").append(defRow);
-            $("#webBody").append("<br><hr><br>");
+            $("#webBody").append("<br>");
         }
         else {
             console.log(response)
@@ -95,10 +93,44 @@ $("#submitButton").on("click", function (event) {
             nullData.text(nullResponse);
             nullRow.append(nullData);
             $("#webBody").append(nullRow);
-            $("#webBody").append("<br><hr><br>");
+            $("#webBody").append("<br><hr>");
         }
 
     });
+
+
+
+
+
+
+    // <======================= Webster Gif ======================>
+
+    var ratingOne = "PG-13";
+    var queryWebsterURL = "https://api.giphy.com/v1/gifs/search?q=" + wordSearch + "&rating=" + ratingOne + "&api_key=k6Uja7qOoPb0IxP4CrFv2IGnbSnJWYp3&limit=5"
+    console.log(queryWebsterURL);
+
+    $.ajax({
+        url: queryWebsterURL,
+        type: "GET",
+
+    }).then(function (giphyW) {
+
+        var resultW = giphyW.data;
+        console.log(resultW[1]);
+        console.log(resultW[1].images.original_still.url);
+
+        var gifWebsterTR = $("<tr>");
+        var gifWebsterTD = $("<td>");
+        var gifWebsterImage = $("<img>");
+
+        gifWebsterTD.html(gifWebsterImage);
+        gifWebsterImage.attr("src", resultW[1].images.fixed_height.url);
+        gifWebsterTR.append(gifWebsterTD);
+        $("#notStrong").append(gifWebsterTR);
+        $("#notStrong").append("<br><hr>");
+    })
+
+   
 
 
 
@@ -109,10 +141,10 @@ $("#submitButton").on("click", function (event) {
     $(".urbanRow").empty();
     var wordSearch = $("#theWord").val().trim();
 
-    var urbanDictionaryAppend = "<button class='btn btn-primary' id='noFilter' type='button' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'>Unofficial Definition</button><br><div class='collapse' id='collapseExample'></div><br><hr><br>";
+    var urbanDictionaryAppend = "<button class='btn btn-danger' id='noFilter' type='button' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'>Unofficial Definition</button><br><div class='collapse' id='collapseExample'></div><br><hr><br>";
     $("#urbanBody").append(urbanDictionaryAppend);
 
-    var urbanDictionaryQuery = 'http://api.urbandictionary.com/v0/define?term={' + wordSearch + '}'
+    var urbanDictionaryQuery = 'https://api.urbandictionary.com/v0/define?term=' + wordSearch;
     $.ajax({
         url: urbanDictionaryQuery,
         method: "GET",
@@ -141,32 +173,65 @@ $("#submitButton").on("click", function (event) {
 
 
 
+    // <======================== Urban Gif ========================>
+
+    var ratingTwo = "R";
+    queryUrbanGifURL = "https://api.giphy.com/v1/gifs/search?q=" + wordSearch + "&rating=" + ratingTwo + "&api_key=WQglZzaDseLC1rFedrnkIA9dsPLoLx0W&limit=5"
+
+    $.ajax({
+        url: queryUrbanGifURL,
+        type: "GET",
+    }).then(function (giphyU) {
+
+        var resultU = giphyU.data;
+        console.log(resultU[0]);
+        console.log(resultU[0].images.original_still.url);
+
+        var newRow = $("<tr>");
+
+        var gifUrbanT = $("<td>");
+        var gifUrbanImage = $("<img>");
+
+        gifUrbanT.html(gifUrbanImage)
+        gifUrbanImage.attr("src", resultU[0].images.fixed_height.url);
+        newRow.append(gifUrbanT)
+        $(".urbanRow").append(newRow);
+
+    });
+
+
 
     // <======================== Translator ========================>
 
     var translationButtonArea = $("<section>").addClass("translationbuttonsgohere");
-    $("#traBody").append("<br>" + "<h6>" + "Translation: ");
+    $("#traBody").append("<br>" + "<h5>" + "Translation: ");
     $("#traBody").append(translationButtonArea);
-    $("#traBody").append("<br>");
 
-    var translationSearchResults = $("<section>").addClass("translationsearchresultsgohere");
+
+    var translationSearchResults = $("<section>").addClass("translationSearchResultsGoHere");
     $("#traBody").append(translationSearchResults);
     $("#traBody").append("<hr>");
 
     // translation buttons
 
-    var russia = $("<button>").text("Russian").addClass("translatorButton").attr('id', "russian");
-    var spanish = $("<button>").text("Spanish").addClass("translatorButton").attr('id', "spanish");
-    var china = $("<button>").text("Chinese").addClass("translatorButton").attr('id', "chinese");
+    var russia = $("<button type=button class='btn btn-warning'>").text("Russian").addClass("translatorButton").attr("id", "russian");
+    var spanish = $("<button type=button class='btn btn-warning'>").text("Spanish").addClass("translatorButton").attr("id", "spanish");
+    var china = $("<button type=button class='btn btn-warning'>").text("Chinese").addClass("translatorButton").attr("id", "chinese");
 
-    $(".translationbuttonsgohere").append(russia);
+    // Divider
+    var divider1 = $("<div>").addClass("divider")
+    var divider2 = $("<div>").addClass("divider")
+
     $(".translationbuttonsgohere").append(spanish);
+    $(".translationbuttonsgohere").append(divider1);
     $(".translationbuttonsgohere").append(china);
+    $(".translationbuttonsgohere").append(divider2);
+    $(".translationbuttonsgohere").append(russia);
 
 
 
     $("#russian").on("click", function displayRussianTranslation() {
-        $(".translationsearchresultsgohere").empty();
+        $(".translationSearchResultsGoHere").empty();
 
         var theWord = $("#theWord").val();
         console.log(theWord);
@@ -180,7 +245,7 @@ $("#submitButton").on("click", function (event) {
             if (russian) {
 
                 russian.text[0];
-                $(".translationsearchresultsgohere").append("<br>" + "<p>" + russian.text[0] + "</p>" + "<br>");
+                $(".translationSearchResultsGoHere").append("<br>" + "<p>" + russian.text[0] + "</p>" + "<br>");
 
                 console.log(russian.text[0])
             }
@@ -188,7 +253,7 @@ $("#submitButton").on("click", function (event) {
     })
 
     $("#spanish").on("click", function displaySpanishTranslation() {
-        $(".translationsearchresultsgohere").empty();
+        $(".translationSearchResultsGoHere").empty();
 
         var theWord = $("#theWord").val();
         console.log(theWord);
@@ -203,14 +268,14 @@ $("#submitButton").on("click", function (event) {
             console.log(spanish);
             if (spanish) {
                 spanish.text[0];
-                $(".translationsearchresultsgohere").append("<br>" + "<p>" + spanish.text[0] + "</p>" + "<br>");
+                $(".translationSearchResultsGoHere").append("<br>" + "<p>" + spanish.text[0] + "</p>" + "<br>");
                 console.log(spanish.text[0])
             }
         })
     })
 
     $("#chinese").on("click", function displayChineseTranslation() {
-        $(".translationsearchresultsgohere").empty();
+        $(".translationSearchResultsGoHere").empty();
 
         var theWord = $("#theWord").val();
         console.log(theWord);
@@ -226,7 +291,7 @@ $("#submitButton").on("click", function (event) {
             if (chinese) {
                 var dataEntries = chinese.text[0];
                 console.log(JSON.stringify(dataEntries));
-                $(".translationsearchresultsgohere").append("<br>" + "<p>" + dataEntries + "</p>" + "<br>");
+                $(".translationSearchResultsGoHere").append("<br>" + "<p>" + dataEntries + "</p>" + "<br>");
                 console.log(chinese.text[0]);
 
 
@@ -250,14 +315,15 @@ var count = 0;
 database.ref().on("child_added", function (childSnapshot) {
     // Increase the count by 1
     count++
-    // Append the user input search word into a list on the DOM
-    $(".wordSearchHistory").append("<li class='searchedWords'>" + childSnapshot.val().wordSearch + "</li>")
-    var searchWord = childSnapshot.val().wordSearch;
-    // var searchLocation = childSnapshot.val().LocationSearchTerm;
-    // Clear the word count so only the latest count appears
-    $(".firebaseWordCount").empty()
-    $(".firebaseWordCount").append("There have been " + count + " words searched.")
-
+    if (childSnapshot.val().wordSearch != '') {
+        // Append the user input search word into a list on the DOM
+        $(".wordSearchHistory").append("<li class='searchedWords'>" + childSnapshot.val().wordSearch + "</li>")
+        var searchWord = childSnapshot.val().wordSearch;
+        // var searchLocation = childSnapshot.val().LocationSearchTerm;
+        // Clear the word count so only the latest count appears
+        $(".firebaseWordCount").empty()
+        $(".firebaseWordCount").append("<br>There have been " + count + " words searched.")
+    }
 }, function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
@@ -265,7 +331,7 @@ database.ref().on("child_added", function (childSnapshot) {
 
 
 // For styling link to our jumble.js
-$('h4').jumble([200,160,90],[230,20,130],true,false,1000);
+$('h4').jumble([200, 160, 90], [230, 20, 130], true, false, 1000);
 
 
 
@@ -279,8 +345,8 @@ $('h4').jumble([200,160,90],[230,20,130],true,false,1000);
 //  Declaring variables for the Zomato Search forms and buttons
 var zomatoSearchBox = $('<section>', { class: 'zomato' });
 var locationSearch = "<form style='width: 350px;'><div class='form-group'><label for='InputLocation'>Grab a friend and use your new word at a cafe!</label><input type='text' class='form-control' id='InputLocation' placeholder='Enter Location'><small class='privacy' id='privacy'>Privacy information<span class='privacyText'>Your information is proected by the PRIVACY ACT OF 1974</span></small></div></form>"
-var goSocial = $("<button>").text("Go Social").addClass("socialButton")
-var clearZomatoSearch = $("<button>").text("Clear Search").addClass("clearZomatoData").css({ margin: "10px" })
+var goSocial = $("<button type=button class='btn btn-light'>").text("Go Social").addClass("socialButton")
+var clearZomatoSearch = $("<button type=button class='btn btn-light'>").text("Clear Search").addClass("clearZomatoData").css({ margin: "10px" })
 
 // Appending buttons, form and label to the Zomato search box section and appending to the body of the html 
 zomatoSearchBox.append(locationSearch)
@@ -344,7 +410,7 @@ $(".socialButton").on("click", function Zomato() {
         // appending the Zomato information into the DOM and add styling to the section
         zomatoData.append(row);
         $("#t2body").append(zomatoData);
-        zomatoData.css({ backgroundColor: '#84C0C6' })
+        zomatoData.css({ backgroundColor: '#00CED1', opacity: '.7' })
         $(".cafediv").css({ color: "purple", margin: "10px" })
         $(".alignCenter").css({ textAlign: "center" })
         $('.zomatoImage').css({ width: "200px", border: "3px ridge black", marginLeft: "auto", marginRight: "auto", display: "block", marginBottom: "10px" })

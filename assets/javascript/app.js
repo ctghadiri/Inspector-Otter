@@ -65,6 +65,7 @@ $("#submitButton").on("click", function (event) {
 
 
 
+
     // <======================= Webster Dictionary ======================>
 
     queryURLwd = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/" + wordSearch + "?key=6f391cdf-76f7-4e3f-bfda-ef1e3db34d04"
@@ -96,6 +97,36 @@ $("#submitButton").on("click", function (event) {
 
     });
 
+
+
+    
+
+
+    // <======================= Webster Gif ======================>
+
+    var ratingOne = "PG";
+    var queryWebsterURL = "https://api.giphy.com/v1/gifs/search?q=" + wordSearch + "&rating=" + ratingOne + "&api_key=tceid0lORIiPoWk6fnLih4aPyLUZpXku&limit=2"
+    console.log(queryWebsterURL);
+
+    $.ajax({
+        url: queryWebsterURL,
+        type: "GET",
+
+    }).then(function (giphyW) {
+
+        var resultW = giphyW.data;
+        console.log(resultW[1]);
+        console.log(resultW[1].images.original_still.url);
+
+        var gifWebsterT = $("<tr>");
+        var gifWebsterImage = $("<img>");
+
+        gifWebsterT.append(gifWebsterImage);
+        gifWebsterImage.attr("src", resultW[1].images.fixed_height.url);
+
+        $("#webGif").append(gifWebsterT);
+
+    })
 
 
 
@@ -135,6 +166,34 @@ $("#submitButton").on("click", function (event) {
         }
     });
 
+
+
+    // <======================== Urban Gif ========================>
+
+    var ratingTwo = "R";
+    queryUrbanGifURL = "https://api.giphy.com/v1/gifs/search?q=" + wordSearch + "&rating=" + ratingTwo + "&api_key=tceid0lORIiPoWk6fnLih4aPyLUZpXku&limit=1"
+
+
+    $.ajax({
+        url: queryUrbanGifURL,
+        type: "GET",
+    }).then(function (giphyU) {
+
+        var resultU = giphyU.data;
+        console.log(resultU[0]);
+        console.log(resultU[0].images.original_still.url);
+
+        var newRow = $("<tr>");
+
+        var gifUrbanT = $("<td>");
+        var gifUrbanImage = $("<img>");
+
+        gifUrbanT.html(gifUrbanImage)
+        gifUrbanImage.attr("src", resultU[0].images.fixed_height.url);
+        newRow.append(gifUrbanT)
+        $(".urbanRow").append(newRow);
+
+    });
 
 
 

@@ -1,5 +1,10 @@
 /* Our styling */
 
+html {
+    position: relative;
+    height: 100%;
+}
+
 body {
     margin: 0 auto;
     font-family: 'Inconsolata', monospace;
@@ -129,6 +134,9 @@ h6 {
 .page-footer{
     background-color: #004777;
     border-top: 3px solid white;
+    position: absolute;
+    margin-bottom: 0%;
+    width: 100%;
 }
 
 .card-body{

@@ -46,7 +46,7 @@ Upon loading our site, the user will see several items displayed on the screen.
 4) An area where previously search words are displayed for the user to see. 
 5) A dark-blue colored footer with a white <img src ="assets/images/about.png" height= "25px"> button. 
 
-Upon clicking the <img src ="assets/images/search.png" height= "25px"> button for a search word within the navigation bar, the user will be shown the **Merriam-Webster** definition of the word, along with several **new** buttons. The four new buttons that appear when a user searches a word are <img src ="assets/images/foreignbuttons.png" height= "25px"> and <img src ="assets/images/unofficialbutton.png" height= "25px">. When any one of the Spanish, Chinese, or Russian buttons are clicked, the searched word's **translation** will be displayed. See demo below when a user inputs a word into the search bar, submits the word and then clicks on the Spanish, Chinese and Russian translation buttons. 
+Upon clicking the <img src ="assets/images/search.png" height= "25px"> button for a search word within the navigation bar, the user will be shown the **Merriam-Webster** definition of the word and Gifs, along with several **new** buttons. The four new buttons that appear when a user searches a word are <img src ="assets/images/foreignbuttons.png" height= "25px"> and <img src ="assets/images/unofficialbutton.png" height= "25px">. When any one of the Spanish, Chinese, or Russian buttons are clicked, the searched word's **translation** will be displayed. See demo below when a user inputs a word into the search bar, submits the word and then clicks on the Spanish, Chinese and Russian translation buttons. 
 
 <img src="https://media.giphy.com/media/37R9qO9YNVuy7hDDR5/giphy.gif">
 
@@ -85,9 +85,9 @@ We are using firebase to store the user-inputted word. The database is then bein
 Our team uses several APIs for our Inspector Otter Webpage. 
 1) We are using Webster Dictionary API to retrieve the formal definitions of the word the user searches. https://www.merriam-webster.com/ 
 2) We use Urban Dictionary API to retrieve the informal/slang word definitions the user can view upon clicking on the unofficial definition button. https://www.urbandictionary.com/
-3) We incorporate Google Translate into our website through the Spanish, Chinese and Russian buttons. When a user clicks on one of these buttons, the translated word appears in the selected foreign language. https://cloud.google.com/translate/
-4) In addition we are using Zomato api which allows us to pull information related to restaurants near a location the user inputs. The idea is to recommend cafes for the user to check out since our target group are new people to the area. https://www.zomato.com/
-5) We applied https://www.giphy.com to the webpage by pulling the user input and showing a gif regarding its vibe/essence 
+3) We incorporate Google Translate API into our website through the Spanish, Chinese and Russian buttons. When a user clicks on one of these buttons, the translated word appears in the selected foreign language. https://cloud.google.com/translate/
+4) In addition we are using Zomato API which allows us to pull information related to restaurants near a location the user inputs. The idea is to recommend cafes for the user to check out since our target group are new people to the area. https://www.zomato.com/
+5) We applied Giphy API to the webpage by pulling the user input and showing a gif regarding that word's vibe/essence. https://www.giphy.com
 
 
 ---

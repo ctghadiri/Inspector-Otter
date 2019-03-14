@@ -202,6 +202,7 @@ $("#submitButton").on("click", function (event) {
 
 
     // <======================== Translator ========================>
+    
 
     var translationButtonArea = $("<section>").addClass("translationbuttonsgohere");
     $("#traBody").append("<br>" + "<h5>" + "Translation: ");
@@ -214,9 +215,9 @@ $("#submitButton").on("click", function (event) {
 
     // translation buttons
 
-    var russia = $("<button type=button class='btn btn-warning'>").text("Russian").addClass("translatorButton").attr("id", "russian");
-    var spanish = $("<button type=button class='btn btn-warning'>").text("Spanish").addClass("translatorButton").attr("id", "spanish");
-    var china = $("<button type=button class='btn btn-warning'>").text("Chinese").addClass("translatorButton").attr("id", "chinese");
+    var russia = $("<button type=button class='btn btn-warning'>").html("Russian 🇷🇺").addClass("translatorButton").attr("id", "russian");
+    var spanish = $("<button type=button class='btn btn-warning'>").text("Spanish 🇲🇽").addClass("translatorButton").attr("id", "spanish");
+    var china = $("<button type=button class='btn btn-warning'>").text("Chinese 🇨🇳").addClass("translatorButton").attr("id", "chinese");
 
     // Divider
     var divider1 = $("<div>").addClass("divider")

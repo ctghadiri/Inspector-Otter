@@ -85,7 +85,7 @@ We are using firebase to store the user-inputted word. The database is then bein
 Our team uses several APIs for our Inspector Otter Webpage. 
 1) We are using Webster Dictionary API to retrieve the formal definitions of the word the user searches. https://www.merriam-webster.com/ 
 2) We use Urban Dictionary API to retrieve the informal/slang word definitions the user can view upon clicking on the unofficial definition button. https://www.urbandictionary.com/
-3) We incorporate Google Translate API into our website through the Spanish, Chinese and Russian buttons. When a user clicks on one of these buttons, the translated word appears in the selected foreign language. https://cloud.google.com/translate/
+3) We incorporate Yandex Translate API into our website through the Spanish, Chinese and Russian buttons. When a user clicks on one of these buttons, the translated word appears in the selected foreign language. https://tech.yandex.com/translate/doc/dg/concepts/About-docpage/
 4) In addition we are using Zomato API which allows us to pull information related to restaurants near a location the user inputs. The idea is to recommend cafes for the user to check out since our target group are new people to the area. https://www.zomato.com/
 5) We applied Giphy API to the webpage by pulling the user input and showing a gif regarding that word's vibe/essence. https://www.giphy.com
 
